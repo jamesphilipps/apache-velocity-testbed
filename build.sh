@@ -2,4 +2,4 @@
 
 gradle clean build
 
-docker build . --tag apache-velocity-testbed:latest
+docker build . --tag ghcr.io/jamesphilipps/apache-velocity-testbed:latest
