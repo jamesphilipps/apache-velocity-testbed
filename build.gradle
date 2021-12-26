@@ -1,0 +1,24 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id "org.springframework.boot" version "2.6.2"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+group 'com.nevermindsoftware'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-parent:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.2'
+
+//    implementation 'org.springframework.boot:spring-boot-devtools:2.6.2'
+}

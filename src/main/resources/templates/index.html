@@ -1,0 +1,79 @@
+<html>
+<head>
+    <title>Velocity Testbed</title>
+<!--    <script src="http://localhost:35729/livereload.js"></script>-->
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}"/>
+    <script th:src="@{/bootstrap.min.js}"></script>
+    <script th:src="@{/jquery-3.6.0.min.js}"></script>
+</head>
+<body>
+<div class="container pt-3">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="d-input-tab" data-bs-toggle="tab" data-bs-target="#d-input"
+                    type="button"
+                    role="tab" aria-controls="d-input" aria-selected="true">Input
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="d-output-tab" data-bs-toggle="tab" data-bs-target="#d-output" type="button"
+                    role="tab" aria-controls="d-output" aria-selected="false">Output
+            </button>
+        </li>
+    </ul>
+
+    <div class="border-start border-end border-bottom p-2 pt-3 pb-0 tab-content">
+        <div class="tab-pane fade show active" id="d-input" role="tabpanel" aria-labelledby="d-input-tab">
+            <form id="input-form"  >
+                <div class="form-group">
+                    <label for="velocityTemplate">Velocity Template:</label>
+                    <textarea class="form-control mt-1" id="velocityTemplate" rows="12"></textarea>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="jsonContext">Context JSON:</label>
+                    <textarea class="form-control mt-1" id="jsonContext" rows="12"></textarea>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary float-end">Submit</button>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+        <div class="tab-pane fade pb-2" id="d-output" role="tabpanel" aria-labelledby="d-output-tab">
+            <textarea class="form-control mt-1" id="outputText" rows="20"></textarea>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#input-form").submit(function (event) {
+            const formData = {
+                velocityTemplate: $("#velocityTemplate").val(),
+                jsonContext: $("#jsonContext").val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: `${location.protocol}//${location.host}/run`,
+                data: formData,
+                dataType: "json",
+                encode: true,
+                success: function (data, status, xhr) {
+                    console.log("SUCCESS", data)
+                    $('#outputText').val(data.result);
+                    $('#d-output-tab').tab('show');
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log("ERROR", errorMessage, textStatus, jqXhr)
+                    $('#outputText').val(jqXhr.responseText);
+                    $('#d-output-tab').tab('show');
+                }
+            })
+
+            event.preventDefault();
+        });
+    });
+</script>
+</body>
+</html>
